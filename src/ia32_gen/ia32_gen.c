@@ -22,7 +22,7 @@ char* generate_ia32_code_for_single_instruction(Instruction instruction) {
             sprintf(result, "push __input_msg\ncall _reads\ncall _atoi\nmov [__mem_%d], eax\npop edx", instruction.arg1);
             break;
         case OUTPUT:
-            sprintf(result, "push __input_msg\npush [__mem_%d]\ncall _itoa\npop edx\npush eax\ncall _puts\n", instruction.arg1);
+            sprintf(result, "push __input_msg\npush dword [__mem_%d]\ncall _itoa\npop edx\npush eax\ncall _puts\npop edx\npop edx\n", instruction.arg1);
             break;
         case ADD:
             sprintf(result, "add eax, [__mem_%d]", instruction.arg1);
@@ -31,10 +31,10 @@ char* generate_ia32_code_for_single_instruction(Instruction instruction) {
             sprintf(result, "sub eax, [__mem_%d]", instruction.arg1);
             break;
         case MUL:
-            sprintf(result, "imul [__mem_%d]", instruction.arg1);
+            sprintf(result, "imul dword [__mem_%d]", instruction.arg1);
             break;
         case DIV:
-            sprintf(result, "idiv [__mem_%d]", instruction.arg1);
+            sprintf(result, "idiv dword [__mem_%d]", instruction.arg1);
             break;
         case LOAD:
             sprintf(result, "mov eax, [__mem_%d]", instruction.arg1);

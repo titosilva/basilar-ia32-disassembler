@@ -35,19 +35,18 @@ _prints:
     push esi
 
     mov ebx, [ebp+8]
-    mov esi, 0
 
 __loop_prints:
-    cmp byte [ebx+esi], 0
+    cmp byte [ebx], 0
     je __end_prints
 
     mov eax, 4
     mov ebx, 1
-    mov ecx, ebx+esi
+    mov ecx, ebx
     mov edx, 1
     int 0x80
 
-    inc esi
+    inc ebx
     jmp __loop_prints
 
 __end_prints:
@@ -85,19 +84,18 @@ _reads:
     push esi
 
     mov ebx, [ebp+8]
-    mov esi, 0
 
 __loop_reads:
     mov eax, 3
     mov ebx, 0
-    mov ecx, ebx+esi
+    mov ecx, ebx
     mov edx, 1
     int 0x80
 
-    cmp byte [ebx+esi], 0x0A
+    cmp byte [ebx], 0x0A
     je __end_reads
 
-    inc esi
+    inc ebx
     jmp __loop_reads
 
 __end_reads:
@@ -190,6 +188,7 @@ __fatal_error:
     mov ebx, 1
     int 0x80
 
+
 section .data
 overflow_msg db 'Overflow detected', 0
 __mem_28 dd 2
@@ -208,16 +207,16 @@ mov [__mem_29], eax
 pop edx
 mov eax, [__mem_29]
 __label_4:
-idiv [__mem_28]
+idiv dword [__mem_28]
 mov [__mem_30], eax
-imul [__mem_28]
+imul dword [__mem_28]
 jo __overflow
 mov [__mem_31], eax
 mov eax, [__mem_29]
 sub eax, [__mem_31]
 mov [__mem_31], eax
 push __input_msg
-push [__mem_31]
+push dword [__mem_31]
 call _itoa
 pop edx
 push eax
