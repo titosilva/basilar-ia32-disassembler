@@ -99,7 +99,7 @@ __loop_reads:
     jmp __loop_reads
 
 __end_reads:
-    mov byte [ebx+esi], 0
+    mov byte [ebx], 0
     pop esi
     pop ebx
     leave
@@ -241,3 +241,7 @@ mov eax, 4
 mov ebx, 1
 mov ecx, overflow_msg
 mov edx, 17
+int 80h
+mov eax, 1
+mov ebx, 0
+int 80h
