@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
     char* code = generate_ia32_code(instructions, instruction_count, numbers);
     log_debug("Generated code\n");
 
-    char * out_file_name = change_file_extension(argv[1], ".asm");
+    char * out_file_name = change_file_extension(argv[1], ".s");
     log_debug("Writing code to %s\n", out_file_name);
     FILE* out_file = fopen(out_file_name, "w");
     if (out_file == NULL) {

@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -O2
 
 # Output binary
-TARGET = main
+TARGET = tradutor
 
 # Find all source files
 SRC_DIR = src

@@ -160,6 +160,10 @@ char* generate_ia32_code(Instruction* instructions, int instruction_count, int* 
     strcat(result, "mov ebx, 1\n");
     strcat(result, "mov ecx, overflow_msg\n");
     strcat(result, "mov edx, 17\n");
+    strcat(result, "int 80h\n");
+    strcat(result, "mov eax, 1\n");
+    strcat(result, "mov ebx, 0\n");
+    strcat(result, "int 80h\n");
 
     return result;
 }
