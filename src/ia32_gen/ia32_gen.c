@@ -111,6 +111,7 @@ char* generate_ia32_code(Instruction* instructions, int instruction_count, int* 
     log_debug("Found %d mems\n", total_mems);
 
     sprintf(result, "section .data\n");
+    strcat(result, "overflow_msg db 'Overflow detected', 0\n");
     for (int i = 0; i < total_mems; i++) {
         char mem[100];
         int value = original_program[mems[i]];
@@ -151,6 +152,14 @@ char* generate_ia32_code(Instruction* instructions, int instruction_count, int* 
 
         current_mem += get_arg_count(instructions[i].type) + 1;
     }
+
+    // add overflow label
+    // print an error from 
+    strcat(result, "__overflow:\n");
+    strcat(result, "mov eax, 4\n");
+    strcat(result, "mov ebx, 1\n");
+    strcat(result, "mov ecx, overflow_msg\n");
+    strcat(result, "mov edx, 17\n");
 
     return result;
 }

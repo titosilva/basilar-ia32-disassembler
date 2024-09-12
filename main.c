@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "src/memory_safety/memory_safety.h"
 #include "src/parser/parser.h"
@@ -18,6 +19,20 @@ int* read_numbers(FILE* file) {
 
     numbers[i] = -1;
     return numbers;
+}
+
+char * change_file_extension(char * file_name, char * new_extension) {
+    char * result = (char *)smalloc(100 * sizeof(char));
+    
+    int i = 0;
+    while (file_name[i] != '.') {
+        result[i] = file_name[i];
+        i++;
+    }
+
+    result[i] = '\0';
+    strcat(result, new_extension);
+    return result;
 }
 
 int main(int argc, char** argv) {
@@ -46,8 +61,9 @@ int main(int argc, char** argv) {
     char* code = generate_ia32_code(instructions, instruction_count, numbers);
     log_debug("Generated code\n");
 
-    log_debug("Writing code to out.asm\n");
-    FILE* out_file = fopen("out.asm", "w");
+    char * out_file_name = change_file_extension(argv[1], ".asm");
+    log_debug("Writing code to %s\n", out_file_name);
+    FILE* out_file = fopen(out_file_name, "w");
     if (out_file == NULL) {
         printf("Could not open file out.asm\n");
         return 1;
